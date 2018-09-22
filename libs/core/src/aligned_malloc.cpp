@@ -9,10 +9,10 @@
 
 #include "core-precomp.h"  // Precompiled headers
 #include <mrpt/core/aligned_allocator.h>
-#ifdef __APPLE__
-#include <stdlib.h>
-#else
 #include <cstdlib>  // free, realloc, C++17 aligned_alloc
+
+#ifdef __APPLE__
+#include <boost/align/aligned_alloc.hpp>
 #endif
 
 #include <cstring>  // memset
@@ -30,7 +30,7 @@ void* mrpt::aligned_malloc(size_t size, size_t alignment)
 #ifdef _MSC_VER
 	return _aligned_malloc(size, alignment);
 #elif __APPLE__
-	return aligned_alloc(alignment, size);
+	return boost::alignment::aligned_alloc(alignment, size);
 #else
 	return ::aligned_alloc(alignment, size);
 #endif
