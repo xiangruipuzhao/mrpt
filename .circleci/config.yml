@@ -35,7 +35,7 @@ jobs:
       - run: bash <(curl -s https://codecov.io/bash) -X gcov -y .codecov.yml -s build
   macos:
     macos:
-      xcode: "9.0"
+      xcode: "10.0.0"
     working_directory: /Users/distiller/project
     steps:
       - checkout
