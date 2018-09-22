@@ -33,7 +33,17 @@ jobs:
       - run: make gcov -C build
       - run: make -C build
       - run: bash <(curl -s https://codecov.io/bash) -X gcov -y .codecov.yml -s build
-
+  macos:
+    macos:
+      xcode: "9.0"
+    working_directory: /Users/distiller/project
+    steps:
+      - checkout
+      - run: brew install cmake
+      - run: cmake -DBUILD_EXAMPLES=On -DBUILD_TESTING=On -DENABLE_COVERAGE=On -DDISABLE_PYTHON_BINDINGS=On -DEIGEN_USE_EMBEDDED_VERSION=On -H. -Bbuild      
+      - run: make -C build tests_build_all
+      - run: make CTEST_OUTPUT_ON_FAILURE=1 test -C build
+      - run: make -C build
 workflows:
   version: 2
   build:
