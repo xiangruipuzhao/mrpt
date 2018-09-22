@@ -39,6 +39,8 @@ jobs:
     working_directory: /Users/distiller/project
     steps:
       - checkout
+      - run: brew install cmake
+      - run: brew install boost
       - run: cmake -DBUILD_EXAMPLES=On -DBUILD_TESTING=On -DENABLE_COVERAGE=On -DDISABLE_PYTHON_BINDINGS=On -DEIGEN_USE_EMBEDDED_VERSION=On -H. -Bbuild      
       - run: make -C build tests_build_all
       - run: make CTEST_OUTPUT_ON_FAILURE=1 test -C build
