@@ -9,7 +9,12 @@
 
 #include "core-precomp.h"  // Precompiled headers
 #include <mrpt/core/aligned_allocator.h>
+#ifdef __APPLE__
+#include <stdlib.h>
+#else
 #include <cstdlib>  // free, realloc, C++17 aligned_alloc
+#endif
+
 #include <cstring>  // memset
 
 void* mrpt::aligned_calloc(size_t bytes, size_t alignment)
@@ -24,6 +29,8 @@ void* mrpt::aligned_malloc(size_t size, size_t alignment)
 	if ((size % alignment) != 0) size = ((size / alignment) + 1) * alignment;
 #ifdef _MSC_VER
 	return _aligned_malloc(size, alignment);
+#elif _APPLE_
+	return aligned_alloc(alignment, size);
 #else
 	return ::aligned_alloc(alignment, size);
 #endif
